@@ -1,0 +1,120 @@
+# 绑定主按键 Mod1 Alt , Mod4 meta
+set $mod Mod1
+
+# 绑定按键
+bindsym $mod+Return    exec  --no-startup-id urxvt 
+bindsym $mod+Shift+g   exec  --no-startup-id google-chrome-stable
+bindsym $mod+Shift+e   exec  --no-startup-id emacs
+bindsym $mod+Shift+d   exec  --no-startup-id i3-dmenu-desktop
+
+bindsym $mod+Shift+i exec --no-startup-id exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym $mod+Shift+o exec --no-startup-id exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+
+
+bindsym $mod+Control+r reload
+bindsym $mod+Control+u restart
+
+bindsym $mod+Control+f     fullscreen toggle
+bindsym $mod+Control+space floating toggle
+bindsym $mod+Control+k     kill
+# 切换窗口
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# 切换工作区
+bindsym Control+1 workspace 1
+bindsym Control+2 workspace 2
+bindsym Control+3 workspace 3
+bindsym Control+4 workspace 4
+bindsym Control+5 workspace 5
+bindsym Control+6 workspace 6
+bindsym Control+7 workspace 7
+bindsym Control+8 workspace 8
+bindsym Control+9 workspace 9
+
+# 移动窗口到工作区
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+
+# 改变窗口大小 
+bindsym $mod+Control+e mode "resize"
+mode "resize" {
+    # back to normal: Enter or Escape
+    bindsym r mode "default"
+    bindsym q mode "default"
+
+    bindsym l  resize shrink width  2 px or 2 ppt
+    bindsym k  resize shrink height 2 px or 2 ppt
+    bindsym j  resize grow height   2 px or 2 ppt
+    bindsym h  resize grow width    2 px or 2 ppt
+}
+
+
+# 
+gaps inner 5
+gaps outer -4
+smart_gaps on
+smart_borders on
+assign [class="Emacs"] 2
+assign [class="Google-chrome"] 3
+assign [class="lx-music-desktop"] 4
+assign [class="vlc"] 4
+assign [class="mpv"] 4
+
+for_window [class="^.*"] border pixel 2 #把所有的窗口边框设为 2 像素
+
+# 字体设置
+font pango:monaco 12
+
+# class                 border  bground text    indicator child_border
+client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
+client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
+client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
+client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
+client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
+client.background       #F8F8F2
+
+# bar 配置 类 边框 背景 文本
+# separator #551A8B  分割线
+# background #1C1C1C 备件
+# statusline #c5c8c6 状态栏
+# focused_workspace  #81a2be #81a2be #1d1f21 专注
+# active_workspace   #373b41 #BFEFFF #ffffff 活动区颜色
+# inactive_workspace #282a2e #282a2e #969896 不活跃区
+# urgent_workspace   #cc6666 #cc6666 #ffffff 紧急
+bar {
+    status_command i3blocks -c ~/.config/i3/i3blocks.conf
+    position top
+    tray_output primary
+    mode dock
+    hidden_state show
+    verbose yes
+    colors {
+        separator #551A8B
+        background #1C1C1C
+        statusline #c5c8c6
+        focused_workspace  #81a2be #81a2be #1d1f21
+        active_workspace   #373b41 #BFEFFF #ffffff
+        inactive_workspace #282a2e #282a2e #969896
+        urgent_workspace   #cc6666 #cc6666 #ffffff
+        binding_mode      #B5B5B5 #A9A9A9 #ffffff
+    }
+}
+
+# 开机自启程序
+exec --no-startup-id google-chrome-stable
+exec --no-startup-id urxvt
+exec --no-startup-id aria2c -D --conf-path=/home/yuan/.config/aria2/aria2.conf  
+exec_always --no-startup-id fcitx
+exec_always --no-startup-id nm-applet
+exec_always --no-startup-id autotiling # 自动平铺
+exec_always --no-startup-id xcompmgr
