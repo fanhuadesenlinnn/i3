@@ -15,14 +15,15 @@ if [ -z $cmd ]; then
   exit 1
 fi
 
+#$cmd new -s $session
 $cmd has -t $session
 
 if [ $? != 0 ]; then
-  $cmd new  -d -n zsh -s  $session "zsh"
-  $cmd neww -n zsh  -t $session "zsh"
-  $cmd neww -n ranger  -t $session "ranger"
-  $cmd neww -n htop -t $session "htop --sort-key=PERCENT_CPU"
-  $cmd neww -n newsboat -t $session "newsboat"
+  $cmd new  -d -n nushell -s  $session "nu"
+  $cmd neww -n nushell  -t $session "nu"
+  $cmd neww -n ydcv  -t $session "ydcv"
+  #$cmd neww -n htop -t $session "htop --sort-key=PERCENT_CPU"
+  #$cmd neww -n newsboat -t $session "newsboat"
   $cmd selectw -t $session:1
 
 #  $cmd neww -n cmus -t $session "cmus"

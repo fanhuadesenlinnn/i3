@@ -2,18 +2,15 @@
 set $mod  Mod1
 set $mod2 Mod4
 
-# 绑定按键
-bindsym $mod+Return    exec  --no-startup-id xfce4-terminal
-bindsym $mod+Shift+x   exec  --no-startup-id xfce4-terminal
-bindsym $mod+Shift+g   exec  --no-startup-id google-chrome-stable
-bindsym $mod+Shift+e   exec  --no-startup-id GTK_IM_MODULE=fcitx GTK_IM_MODULE=fcitx XMODIFIERS=@im=fcitx LANG=zh_CN.UTF-8 LC_CTYPE=zh_CN.UTF-8 emacs
-bindsym $mod+Shift+w   exec  --no-startup-id wechat-uos --no-sandbox
-bindsym $mod+Shift+l   exec  --no-startup-id lx-music-desktop
-bindsym $mod+Shift+d   exec  --no-startup-id i3-dmenu-desktop
-bindsym $mod+Shift+r   exec  --no-startup-id rofi -show drun
-bindsym $mod+Shift+v   exec  --no-startup-id vmware
-bindsym F1             exec  --no-startup-id flameshot gui
-bindsym $mod+Shift+t   exec  --no-startup-id thunar
+# 程序相关绑定按键
+bindsym $mod2+Return    exec  --no-startup-id xfce4-terminal
+bindsym $mod2+x   exec  --no-startup-id xfce4-terminal
+bindsym $mod2+g   exec  --no-startup-id google-chrome-stable
+bindsym $mod2+n   exec  --no-startup-id GTK_IM_MODULE=fcitx GTK_IM_MODULE=fcitx XMODIFIERS=@im=fcitx LANG=zh_CN.UTF-8 LC_CTYPE=zh_CN.UTF-8 neovide
+bindsym $mod2+d   exec  --no-startup-id GTK_IM_MODULE=fcitx GTK_IM_MODULE=fcitx XMODIFIERS=@im=fcitx LANG=zh_CN.UTF-8 LC_CTYPE=zh_CN.UTF-8 i3-dmenu-desktop
+bindsym $mod2+r   exec  --no-startup-id rofi -show drun
+bindsym F1        exec  --no-startup-id flameshot gui
+bindsym $mod2+t   exec  --no-startup-id thunar
 
 
 bindsym XF86AudioRaiseVolume exec --no-startup-id  amixer set Master 5%+
@@ -24,17 +21,19 @@ bindsym XF86AudioMute        exec --no-startup-id  amixer set Master toggle
 bindsym XF86MonBrightnessUp   exec xbacklight -inc 10
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10
 
+
+# 重新加载配置
 bindsym $mod+Control+r reload
 bindsym $mod+Control+u restart
 
 bindsym $mod+Control+f     fullscreen toggle
 bindsym $mod+Control+space floating toggle
-bindsym $mod+Control+d     kill
+bindsym $mod+Control+q     kill
 # 切换窗口
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
+bindsym $mod+Shift+h focus left
+bindsym $mod+Shift+j focus down
+bindsym $mod+Shift+k focus up
+bindsym $mod+Shift+l focus right
 
 # 移动调节窗口位置
 bindsym $mod+Control+h move left
@@ -79,7 +78,7 @@ mode "resize" {
 
 # power
 set $mode_system select: lock(l) exit(e) reboot(r) shutdown(s) cancel(Esc)
-bindsym $mod+Control+q mode "$mode_system"
+bindsym $mod2+Control+q mode "$mode_system"
 mode "$mode_system" {
     bindsym l exec --no-startup-id i3lock -c '#000000', mode "default"
     bindsym e exec --no-startup-id i3-msg exit, mode "default"
@@ -93,21 +92,24 @@ gaps inner 5
 gaps outer -4
 smart_gaps on
 smart_borders on
+
+#  
 assign [class="Emacs"] 2
+assign [class="neovide"] 2
 assign [class="Google-chrome"] 3
-assign [class="TelegramDesktop"] 4
-assign [class="weixin"] 4
-assign [class="wps"] 4
-assign [class="mpv"] 4
-assign [class="lx-music-desktop"] 4
+assign [class="Siyuan"] 5
+assign [class="TelegramDesktop"] 5
+assign [class="weixin"] 5
+assign [class="wps"] 5
+assign [class="mpv"] 5
 assign [class="Vmware"] 9
 
 
 # 限制浮动窗口大小
 floating_minimum_size 75 x 50
-for_window [workspace="4"] floating enable
+#for_window [workspace="4"] floating enable
 for_window [workspace="5"] floating enable
-for_window [class="^.*"] border pixel 2 #把所有的窗口边框设为 2 像素
+for_window [class="^.*"] border pixel 3 #把所有的窗口边框设为 2 像素
 
 # 字体设置
 font pango:monaco 12
@@ -153,17 +155,20 @@ bar {
 
 
 #exec --no-startup-id  xrandr --output Virtual-1   --mode "3840x2160"
-#exec --no-startup-id  mate-power-manager
-#exec --no-startup-id  blueman-applet
-#exec --no-startup-id  xcompmgr &
-#exec --no-startup-id  lx-music-desktop --no-sandbox
-exec_always --no-startup-id  fcitx
-exec_always --no-startup-id  feh  --bg-scale ~/picture/wangge.jpg
-exec --no-startup-id  bash /home/yuan/.config/i3/script/root_start_v2raya.sh
+exec --no-startup-id  mate-power-manager
+exec --no-startup-id  blueman-applet
+exec --no-startup-id  xcompmgr &
+exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=secrets
+exec_always --no-startup-id  fcitx5
+exec_always --no-startup-id  feh  --bg-scale ~/.config/i3/yangqi.jpg
+#exec --no-startup-id  bash /home/yuan/.config/i3/script/root_start_v2raya.sh
+
+exec --no-startup-id  cfw
 exec --no-startup-id  picom -bc
 exec --no-startup-id  dunst &
 exec --no-startup-id  autotiling & # 自动平铺
 exec --no-startup-id  nm-applet
-exec --no-startup-id  xfce4-terminal -x bash ~/.config/i3/script/start-tmux.sh
-exec --no-startup-id  emacs
+exec --no-startup-id  xfce4-terminal -x bash /home/yuan/.config/i3/script/start-tmux.sh
+exec --no-startup-id  GTK_IM_MODULE=fcitx GTK_IM_MODULE=fcitx XMODIFIERS=@im=fcitx LANG=zh_CN.UTF-8 LC_CTYPE=zh_CN.UTF-8 neovide
 exec --no-startup-id  google-chrome-stable
+exec --no-startup-id  /home/yuan/app/siyuan-2.11.1-linux.AppImage
